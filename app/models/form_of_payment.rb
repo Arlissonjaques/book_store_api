@@ -1,0 +1,2 @@
+class FormOfPayment < ApplicationRecord
+end
