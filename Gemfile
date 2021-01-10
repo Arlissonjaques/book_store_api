@@ -29,6 +29,8 @@ group :development, :test do
   gem 'simplecov', require: false
   # A Ruby code quality reporter
   gem 'rubycritic', require: false
+  # Simple one-liner tests for common Rails functionality
+  gem 'shoulda-matchers'
 end
 
 group :development do
