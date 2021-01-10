@@ -8,4 +8,8 @@ RSpec.describe Book, type: :model do
     it { should validate_numericality_of(:price) }
   end
 
+  describe 'assossiations' do
+    it { should belong_to(:author) }
+  end
+
 end
