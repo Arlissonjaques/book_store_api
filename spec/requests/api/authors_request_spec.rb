@@ -17,6 +17,12 @@ RSpec.describe "Api::Authors", type: :request do
       json_response = JSON.parse(response.body)
       expect(json_response[0].keys).to match_array(%w[id name created_at updated_at])
     end
-  end
 
+    describe 'POST /api/authors' do
+      it 'return a consultant created' do
+        post '/api/authors/', params: {name: :author}
+        expect(response).to have_http_status(:created)
+      end
+    end
+  end
 end
