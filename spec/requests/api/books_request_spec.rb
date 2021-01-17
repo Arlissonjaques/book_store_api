@@ -22,8 +22,8 @@ RSpec.describe "Api::Books", type: :request do
   describe 'POST /api/books' do
     context 'with valid arguments' do
       it 'book created' do
-        author = create(:author)
-        post '/api/books/', params: { name: author.name, price: Faker::Number.within(range: 10..70), author_id: author.id }
+        book = create(:book)
+        post '/api/books/', params: { name: book.name, price: Faker::Number.within(range: 10..70), author_id: book.author_id }
         expect(response).to have_http_status(:created)
       end
     end
