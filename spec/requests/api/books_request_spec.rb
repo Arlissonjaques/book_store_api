@@ -18,4 +18,23 @@ RSpec.describe "Api::Books", type: :request do
       expect(json_response[0].keys).to match_array(%w[id name price author_id created_at updated_at])
     end
   end
+
+  describe 'POST /api/books' do
+    context 'with valid arguments' do
+      it 'book created' do
+        author = create(:author)
+        post '/api/books/', params: { name: author.name, price: Faker::Number.within(range: 10..70), author_id: author.id }
+        expect(response).to have_http_status(:created)
+      end
+    end
+
+    context 'with invalid arguments' do
+      it 'book created' do
+        author = create(:author)
+        post '/api/books/', params: { name: author.name }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
 end
