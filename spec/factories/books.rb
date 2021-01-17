@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :book do
-    name { "MyString" }
-    price { 1.5 }
-    author { nil }
+    name { Faker::Book.title }
+    price { Faker::Number.within(range: 10..70) }
+    author
   end
 end
