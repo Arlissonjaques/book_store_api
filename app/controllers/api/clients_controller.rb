@@ -1,6 +1,6 @@
 class Api::ClientsController < ApplicationController
 
-  before_action :set_book, only: [:update]
+  before_action :set_client, only: [:update, :destroy]
 
   def index
     render json: Client.all
@@ -17,17 +17,22 @@ class Api::ClientsController < ApplicationController
   end
 
   def update
-    if @book.update(book_params)
-      render json: @book, status: :ok
+    if @client.update(client_params)
+      render json: @client, status: :ok
     else
-      render json: @book.errors, status: :unprocessable_entity
+      render json: @client.errors, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @client.destroy
+    # render json: {'message': 'data deleted successfully'}
   end
 
   private
 
-  def set_book
-    @book = Book.find(params[:id])
+  def set_client
+    @client = Client.find(params[:id])
   rescue ActiveRecord::RecordNotFound => e
     render json: { message: e.message }, status: :not_found
   end
