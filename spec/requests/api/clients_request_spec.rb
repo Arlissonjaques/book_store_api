@@ -63,4 +63,21 @@ RSpec.describe "Api::Clients", type: :request do
       end
     end
   end
+
+  describe 'DELETE api/clients/x' do
+    context 'when client exists' do
+      it 'excluding client' do
+        client = create(:client)
+        delete "/api/clients/#{client.id}"
+        expect(response).to have_http_status(204)
+      end
+
+      it 'destroy record' do
+        client = create(:client)
+        delete "/api/clients/#{client.id}"
+        expect { client.reload }.to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+
+  end
 end
