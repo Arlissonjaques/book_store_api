@@ -63,4 +63,21 @@ RSpec.describe "Api::Books", type: :request do
     end
   end
 
+  describe 'DELETE api/books/x' do
+    context 'when book exists' do
+      it 'excluding book' do
+        book = create(:book)
+        delete "/api/books/#{book.id}"
+        expect(response).to have_http_status(204)
+      end
+
+      it 'destroy record' do
+        book = create(:book)
+        delete "/api/books/#{book.id}"
+        expect { book.reload }.to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+
+  end
+
 end
