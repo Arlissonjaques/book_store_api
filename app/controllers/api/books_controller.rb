@@ -1,6 +1,6 @@
 class Api::BooksController < ApplicationController
 
-  before_action :set_book, only: [:update]
+  before_action :set_book, only: [:update, :destroy]
 
   def index
     render json: Book.all
@@ -22,6 +22,11 @@ class Api::BooksController < ApplicationController
     else
       render json: @book.errors, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @book.destroy
+    # render json: {'message': 'data deleted successfully'}
   end
 
   private
