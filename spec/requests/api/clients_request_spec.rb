@@ -18,4 +18,22 @@ RSpec.describe "Api::Clients", type: :request do
       expect(json_response[0].keys).to match_array(%w[id firstname lastname email created_at updated_at])
     end
   end
+
+  describe 'POST /api/clients' do
+    context 'with valid arguments' do
+      it 'client created' do
+        client = create(:client)
+        post '/api/clients/', params: { firstname: client.firstname, lastname: client.lastname, email: "teste@email.com" }
+        expect(response).to have_http_status(:created)
+      end
+    end
+
+    context 'with invalid arguments' do
+      it 'client created' do
+        author = create(:author)
+        post '/api/clients/', params: { name: author.name }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
 end
