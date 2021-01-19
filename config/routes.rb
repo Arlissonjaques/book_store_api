@@ -3,5 +3,6 @@ Rails.application.routes.draw do
     resources :authors
     resources :books
     resources :clients
+    resources :form_of_payments
   end
 end
