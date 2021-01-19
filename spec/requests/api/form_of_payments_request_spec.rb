@@ -18,4 +18,20 @@ RSpec.describe "Api::FormOfPayments", type: :request do
       expect(json_response[0].keys).to match_array(%w[id type_payment created_at updated_at])
     end
   end
+
+  describe 'POST /api/form_of_payments' do
+    context 'with valid arguments' do
+      it 'form_of_payment created' do
+        post '/api/form_of_payments/', params: { type_payment: 'Boleto'}
+        expect(response).to have_http_status(:created)
+      end
+    end
+
+    context 'with invalid arguments' do
+      it 'should not create' do
+        post '/api/form_of_payments/', params: { name: " " }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
 end
