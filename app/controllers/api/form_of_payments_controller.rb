@@ -1,6 +1,6 @@
 class Api::FormOfPaymentsController < ApplicationController
 
-  before_action :set_form_of_payment, only: [:destroy]
+  before_action :set_form_of_payment, only: [:update, :destroy]
 
   def index
     render json: FormOfPayment.all
@@ -11,6 +11,14 @@ class Api::FormOfPaymentsController < ApplicationController
 
     if @form_of_payment.save
       render json: @form_of_payment, status: :created
+    else
+      render json: @form_of_payment.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    if @form_of_payment.update(form_of_payment_params)
+      render json: @form_of_payment, status: :ok
     else
       render json: @form_of_payment.errors, status: :unprocessable_entity
     end
