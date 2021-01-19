@@ -34,4 +34,22 @@ RSpec.describe "Api::FormOfPayments", type: :request do
       end
     end
   end
+
+  describe 'DELETE api/form_of_payments/x' do
+    context 'when form_of_payment exists' do
+      it 'excluding form_of_payment' do
+        form_of_payment = create(:form_of_payment)
+        delete "/api/form_of_payments/#{form_of_payment.id}"
+        expect(response).to have_http_status(204)
+      end
+
+      it 'destroy record' do
+        form_of_payment = create(:form_of_payment)
+        delete "/api/form_of_payments/#{form_of_payment.id}"
+        expect { form_of_payment.reload }.to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+
+  end
+
 end
