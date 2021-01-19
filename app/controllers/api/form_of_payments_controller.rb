@@ -1,5 +1,7 @@
 class Api::FormOfPaymentsController < ApplicationController
 
+  before_action :set_form_of_payment, only: [:destroy]
+
   def index
     render json: FormOfPayment.all
   end
@@ -14,7 +16,18 @@ class Api::FormOfPaymentsController < ApplicationController
     end
   end
 
+  def destroy
+    @form_of_payment.destroy
+    # render json: {'message': 'data deleted successfully'}
+  end
+
   private
+
+  def set_form_of_payment
+    @form_of_payment = FormOfPayment.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { message: e.message }, status: :not_found
+  end
 
   def form_of_payment_params
     params.permit(:type_payment)
