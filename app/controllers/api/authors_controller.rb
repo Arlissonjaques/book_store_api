@@ -33,8 +33,6 @@ class Api::AuthorsController < ApplicationController
 
   def set_author
     @author = Author.find(params[:id])
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { message: e.message }, status: :not_found
   end
 
   def author_params
