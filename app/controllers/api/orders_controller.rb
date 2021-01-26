@@ -14,6 +14,14 @@ class Api::OrdersController < ApplicationController
     end
   end
 
+  def update
+    if @order.update(order_params)
+      render json: @order, status: :ok
+    else
+      render json: @order.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def order_params
