@@ -24,6 +24,11 @@ RSpec.describe 'Api::Authors', type: :request do
       post '/api/authors/', params: { name: :author }
       expect(response).to have_http_status(:created)
     end
+
+    it 'invalid arguments' do
+      post '/api/authors/', params: { name: '' }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
   end
 
   describe 'PUT /api/authors/x' do
