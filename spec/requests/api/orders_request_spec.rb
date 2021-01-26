@@ -32,8 +32,26 @@ RSpec.describe "Api::Orders", type: :request do
     end
 
     context 'with invalid arguments' do
-      it 'client created' do
+      it 'order created' do
         form = FormOfPayment.create(type_payment: 'Boleto')
+        post '/api/orders/', params: { client_id: create(:client).id }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
+  describe 'PUT /api/orders/x' do
+
+    it 'record update' do
+      form = FormOfPayment.create(type_payment: 'Boleto')
+      order = Order.create(client_id: create(:client).id, book_id: create(:book).id, form_of_payment_id: form.id)
+      order_attributes = { 'client_id': 1, 'book_id': 1, 'form_of_payment_id': 1 }
+      put "/api/clients/#{order.id}", params: order_attributes
+      expect(order.reload).to have_attributes(order_attributes.slice(:client_id, :book_id, :form_of_payment_id))
+    end
+
+    context 'with invalid arguments' do
+      it 'order created' do
         post '/api/orders/', params: { client_id: create(:client).id }
         expect(response).to have_http_status(:unprocessable_entity)
       end
