@@ -58,4 +58,22 @@ RSpec.describe "Api::Orders", type: :request do
     end
   end
 
+  describe 'DELETE api/orders/x' do
+    context 'when order exists' do
+      it 'excluding order' do
+        form = FormOfPayment.create(type_payment: 'Boleto')
+        order = Order.create(client_id: create(:client).id, book_id: create(:book).id, form_of_payment_id: form.id)
+        delete "/api/orders/#{order.id}"
+        expect(response).to have_http_status(204)
+      end
+
+      it 'destroy record' do
+        form = FormOfPayment.create(type_payment: 'Boleto')
+        order = Order.create(client_id: create(:client).id, book_id: create(:book).id, form_of_payment_id: form.id)
+        delete "/api/orders/#{order.id}"
+        expect { order.reload }.to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+  end
+
 end
