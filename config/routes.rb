@@ -4,5 +4,6 @@ Rails.application.routes.draw do
     resources :books
     resources :clients
     resources :form_of_payments
+    resources :orders
   end
 end
