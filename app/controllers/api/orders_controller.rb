@@ -1,5 +1,7 @@
 class Api::OrdersController < ApplicationController
 
+  before_action :set_order, only: [:destroy]
+
   def index
     render json: Order.all
   end
@@ -22,7 +24,15 @@ class Api::OrdersController < ApplicationController
     end
   end
 
+  def destroy
+    @order.destroy
+  end
+
   private
+
+  def set_order
+    @order = Order.find(params[:id])
+  end
 
   def order_params
     params.permit(:client_id, :book_id, :form_of_payment_id)
