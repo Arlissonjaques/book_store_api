@@ -26,15 +26,12 @@ class Api::BooksController < ApplicationController
 
   def destroy
     @book.destroy
-    # render json: {'message': 'data deleted successfully'}
   end
 
   private
 
   def set_book
     @book = Book.find(params[:id])
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { message: e.message }, status: :not_found
   end
 
   def book_params
