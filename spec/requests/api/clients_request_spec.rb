@@ -1,10 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe "Api::Clients", type: :request do
+RSpec.describe 'Api::Clients', type: :request do
   describe 'GET  api/clients' do
     before do
-      create(:client)
-      create(:client)
+      create_list(:client, 2)
       get '/api/clients'
     end
 
@@ -15,23 +14,21 @@ RSpec.describe "Api::Clients", type: :request do
 
     it 'check JSON attributes' do
       json_response = JSON.parse(response.body)
-      expect(json_response[0].keys).to match_array(%w[id firstname lastname email created_at updated_at])
+      expect(json_response[0].keys).to include('id', 'firstname', 'lastname', 'email')
     end
   end
 
   describe 'POST /api/clients' do
     context 'with valid arguments' do
       it 'client created' do
-        client = create(:client)
-        post '/api/clients/', params: { firstname: client.firstname, lastname: client.lastname, email: "teste@email.com" }
+        post '/api/clients/', params: attributes_for(:client)
         expect(response).to have_http_status(:created)
       end
     end
 
     context 'with invalid arguments' do
       it 'client created' do
-        author = create(:author)
-        post '/api/clients/', params: { name: author.name }
+        post '/api/clients/', params: { name: '' }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -49,8 +46,7 @@ RSpec.describe "Api::Clients", type: :request do
 
     context 'with invalid arguments' do
       it 'client created' do
-        client = create(:client)
-        post '/api/clients/', params: { name: client.firstname }
+        put "/api/clients/#{create(:client).id}", params: { firstname: '' }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -66,8 +62,7 @@ RSpec.describe "Api::Clients", type: :request do
   describe 'DELETE api/clients/x' do
     context 'when client exists' do
       it 'excluding client' do
-        client = create(:client)
-        delete "/api/clients/#{client.id}"
+        delete "/api/clients/#{create(:client).id}"
         expect(response).to have_http_status(204)
       end
 
@@ -77,6 +72,5 @@ RSpec.describe "Api::Clients", type: :request do
         expect { client.reload }.to raise_error ActiveRecord::RecordNotFound
       end
     end
-
   end
 end
