@@ -1,6 +1,6 @@
 class Api::OrdersController < ApplicationController
 
-  before_action :set_order, only: [:destroy]
+  before_action :set_order, only: %i[update destroy]
 
   def index
     render json: Order.all
