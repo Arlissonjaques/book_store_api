@@ -18,7 +18,7 @@ RSpec.describe "Api::Orders", type: :request do
 
     it 'check JSON attributes' do
       json_response = JSON.parse(response.body)
-      expect(json_response[0].keys).to match_array(%w[id client_id book_id form_of_payment_id created_at updated_at])
+      expect(json_response[0].keys).to include('id', 'client_id', 'book_id', 'form_of_payment_id')
     end
   end
 
@@ -52,7 +52,9 @@ RSpec.describe "Api::Orders", type: :request do
 
     context 'with invalid arguments' do
       it 'order created' do
-        post '/api/orders/', params: { client_id: create(:client).id }
+        form = FormOfPayment.create(type_payment: 'Boleto')
+        order = Order.create(client_id: create(:client).id, book_id: create(:book).id, form_of_payment_id: form.id)
+        put "/api/orders/#{order.id}", params: { client_id: '' }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
