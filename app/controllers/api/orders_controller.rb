@@ -3,7 +3,7 @@ class Api::OrdersController < ApplicationController
   before_action :set_order, only: %i[update destroy]
 
   def index
-    render json: Order.all
+    render json: Order.all, methods: :book_references
   end
 
   def create

@@ -18,7 +18,7 @@ RSpec.describe "Api::Orders", type: :request do
 
     it 'check JSON attributes' do
       json_response = JSON.parse(response.body)
-      expect(json_response[0].keys).to include('id', 'client_id', 'book_id', 'form_of_payment_id')
+      expect(json_response[0].keys).to include('id', 'client_id', 'book_id', 'form_of_payment_id', 'book_references')
     end
   end
 
